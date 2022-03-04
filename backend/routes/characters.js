@@ -35,13 +35,14 @@ router.post("/favorite", auth, async (req, res) => {
     userId: req.user._id,
     characterId: id,
   });
-
+  // if is not already a favorite add it
   if (!characterFav) {
     const newFav = new Favorite({
       userId: req.user._id,
       characterId: id,
     });
     await newFav.save();
+    // if is already a favorite remove it
   } else {
     await Favorite.remove({
       userId: req.user._id,
