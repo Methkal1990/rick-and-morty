@@ -4,6 +4,8 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 
 const characters = require("./routes/characters");
+const user = require("./routes/user");
+const auth = require("./routes/auth");
 const error = require("./middlewares/error");
 
 const app = express();
@@ -26,6 +28,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/characters", characters);
+app.use("/api/user", user);
+app.use("/api/auth", auth);
 
 app.use(error);
 
