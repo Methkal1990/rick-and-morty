@@ -37,18 +37,18 @@ services:
       MONGODB_USERNAME: "root"
       MONGODB_PASSWORD: "root"
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - '3000:3000'
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - backend
-  #   volumes:
-  #     - /app/node_modules
-  #     - ./frontend:/app
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    depends_on:
+      - backend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
 volumes:
   mongo-data:
     driver: local
