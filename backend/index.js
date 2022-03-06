@@ -2,6 +2,7 @@ require("express-async-errors");
 const express = require("express");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const characters = require("./routes/characters");
 const user = require("./routes/user");
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(helmet());
 app.use(express.json());
+app.use(cors());
 
 process.on("uncaughtException", (ex) => {
   console.log(ex.message);

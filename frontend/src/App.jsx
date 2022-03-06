@@ -12,6 +12,7 @@ function App() {
         <Route exact path="/auth" element={<Auth />} />
         <Route exact path="/:characterId" element={<Character />} />
         <Route exact path="/" element={<Home />} />
+        <Route path="*" element={<div>404</div>} />
       </Routes>
     </Router>
   );
