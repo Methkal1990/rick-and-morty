@@ -11,6 +11,8 @@ export const registerUser = (data) => async (dispatch) => {
 
 export const loginUser = (data) => async (dispatch) => {
   const response = await login(data);
+  localStorage.setItem("token", response);
+
   dispatch({
     type: LOGIN,
     payload: response.data,

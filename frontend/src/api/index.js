@@ -6,12 +6,22 @@ const rootRequest = axios.create({
 
 // characters
 export const getAllCharacters = async () => {
-  const response = await rootRequest.get("/characters");
+  const token = localStorage.getItem("token");
+  const response = await rootRequest.get("/characters", {
+    headers: {
+      "x-auth-token": token,
+    },
+  });
   return response.data;
 };
 
 export const getCharacterById = async (id) => {
-  const response = await rootRequest.get(`/characters/${id}`);
+  const token = localStorage.getItem("token");
+  const response = await rootRequest.get(`/characters/${id}`, {
+    headers: {
+      "x-auth-token": token,
+    },
+  });
   return response.data;
 };
 

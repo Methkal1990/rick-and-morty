@@ -1,34 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import RickImage from "../../assets/auth.png";
 import * as actions from "../../actions/auth";
+import Form from "../../components/Form";
 
 import {
   AuthContainer,
   AuthContainerBox,
-  AuthForm,
   AuthTabs,
-} from "./styles.jsx";
+  AuthImageBox,
+  AuthImage,
+} from "./styles.js";
 
 function Auth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem("token");
+  });
   const [isLogin, setIsLogin] = useState(true);
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const handleRegister = async (name, password) => {
     await dispatch(actions.registerUser({ name, password }));
     navigate("/", { replace: true });
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (name, password) => {
     await dispatch(actions.loginUser({ name, password }));
     navigate("/", { replace: true });
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate("/", { replace: true });
+    }
+  }, [token, navigate]);
 
   return (
     <AuthContainer>
@@ -39,6 +47,7 @@ function Auth() {
             onClick={() => {
               setIsLogin(true);
             }}
+            className={isLogin ? "active" : ""}
           >
             Login
           </button>
@@ -46,46 +55,19 @@ function Auth() {
             onClick={() => {
               setIsLogin(false);
             }}
+            className={!isLogin ? "active" : ""}
           >
             Register
           </button>
         </AuthTabs>
+        {/* image */}
+        <AuthImageBox>
+          <AuthImage src={RickImage} />
+        </AuthImageBox>
         {isLogin ? (
-          <AuthForm onSubmit={handleLogin}>
-            <input
-              type="text"
-              placeholder="Username"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <button>Login</button>
-          </AuthForm>
+          <Form onSubmit={handleLogin} buttonLabel="Login" />
         ) : (
-          <AuthForm onSubmit={handleRegister}>
-            <input
-              type="text"
-              placeholder="Username"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <button>Register</button>
-          </AuthForm>
+          <Form onSubmit={handleRegister} buttonLabel="Register" />
         )}
       </AuthContainerBox>
     </AuthContainer>
