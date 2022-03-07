@@ -9,16 +9,9 @@ function CharacterCard({ character }) {
   const navigate = useNavigate();
   const isFavorite = character?.isFavorite;
 
-  const handleFavorite = (e) => {
-    e.stopPropagation();
-  };
-
   return (
     <Card onClick={() => navigate(`/${character.id}`)}>
-      <FavImage
-        src={isFavorite ? HeartFilled : Heart}
-        onClick={handleFavorite}
-      />
+      <FavImage src={isFavorite ? HeartFilled : Heart} />
       <CardImageBox>
         <img src={character?.image} alt={character?.name} />
       </CardImageBox>

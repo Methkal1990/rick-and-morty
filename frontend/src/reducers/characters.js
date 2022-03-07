@@ -1,4 +1,4 @@
-import { GET_CHARACTER, GET_CHARACTERS } from "../actions/types";
+import { GET_CHARACTER, GET_CHARACTERS, FAVORITE } from "../actions/types";
 
 const initialState = {
   allCharacters: [],
@@ -16,6 +16,14 @@ const charactersReducer = (state = initialState, action) => {
       return {
         ...state,
         currentCharacter: action.payload,
+      };
+    case FAVORITE:
+      return {
+        ...state,
+        currentCharacter: {
+          ...state.currentCharacter,
+          isFavorite: !state.currentCharacter.isFavorite,
+        },
       };
     default:
       return state;

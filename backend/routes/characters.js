@@ -9,7 +9,7 @@ router.get("/", auth, async (req, res) => {
     "https://rickandmortyapi.com/api/character"
   );
   // build the results with isFavorite property
-  const userFavorites = await Favorite.find({ user: req.user._id });
+  const userFavorites = await Favorite.find({ userId: req.user._id });
   const results = characters.data.results.map((character) => {
     const isFavorite = userFavorites.find(
       (favorite) => parseInt(favorite.characterId) === character.id
@@ -22,10 +22,15 @@ router.get("/", auth, async (req, res) => {
 
 router.get("/:id", auth, async (req, res) => {
   const { id } = req.params;
+  // build the results with isFavorite property
+  const isFavorite = await Favorite.find({
+    userId: req.user._id,
+    characterId: id,
+  });
   const character = await axios.get(
     `https://rickandmortyapi.com/api/character/${id}`
   );
-  res.send(character.data);
+  res.send({ ...character.data, isFavorite: !!isFavorite.length });
 });
 
 router.post("/favorite", auth, async (req, res) => {

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import usePrevious from "../../hooks/usePrevious";
 import Heart from "../../assets/heart.png";
 import HeartFilled from "../../assets/heart-filled.png";
 import * as actions from "../../actions/characters";
@@ -15,19 +16,35 @@ import {
 
 function Character() {
   const { characterId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentCharacter = useSelector(
     (state) => state.characters.currentCharacter
   );
+  const isLoading = useSelector((state) => state.loading.isLoading);
+  const isLoadingPrevious = usePrevious(isLoading);
+
+  const handleFavorite = (e) => {
+    dispatch(actions.favoriteCharacter(characterId));
+  };
 
   useEffect(() => {
     dispatch(actions.getCharacter(characterId));
   }, [characterId, dispatch]);
 
+  useEffect(() => {
+    if (isLoadingPrevious && !isLoading && !currentCharacter.id) {
+      navigate("/not-found", { replace: true });
+    }
+  }, [isLoading, isLoadingPrevious, navigate, currentCharacter.id]);
+
   return (
     <Container>
       <CharacterContainer>
-        <FavImage src={currentCharacter?.isFavorite ? HeartFilled : Heart} />
+        <FavImage
+          src={currentCharacter?.isFavorite ? HeartFilled : Heart}
+          onClick={handleFavorite}
+        />
         <ImageContainer>
           <img src={currentCharacter?.image} alt={currentCharacter?.name} />
         </ImageContainer>

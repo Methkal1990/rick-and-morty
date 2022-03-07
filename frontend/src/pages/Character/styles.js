@@ -70,8 +70,8 @@ export const CharacterInfo = styled.div`
 export const FavImage = styled.img`
   position: absolute;
   z-index: 10;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
   width: 30px;
   border-radius: 50%;
   cursor: pointer;

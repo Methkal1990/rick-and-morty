@@ -25,6 +25,19 @@ export const getCharacterById = async (id) => {
   return response.data;
 };
 
+export const favorite = async (id) => {
+  const token = localStorage.getItem("token");
+  return await rootRequest.post(
+    `/characters/favorite`,
+    { id },
+    {
+      headers: {
+        "x-auth-token": token,
+      },
+    }
+  );
+};
+
 // users
 export const register = async (data) => {
   const response = await rootRequest.post("/user", data);

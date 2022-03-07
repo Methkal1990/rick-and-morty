@@ -18,6 +18,9 @@ export const Card = styled.div`
   h2 {
     letter-spacing: 1px;
     color: #fff;
+    height: 25px;
+    width: 100%;
+    overflow: hidden;
   }
 `;
 
@@ -36,14 +39,8 @@ export const CardImageBox = styled.div`
 
 export const FavImage = styled.img`
   position: absolute;
-  z-index: 10;
   top: 5px;
   right: 5px;
   width: 30px;
   border-radius: 50%;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.5;
-  }
 `;
