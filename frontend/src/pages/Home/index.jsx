@@ -5,22 +5,29 @@ import { useNavigate } from "react-router-dom";
 import CharacterCard from "../../components/CharacterCard";
 import * as actions from "../../actions/characters";
 import { Container } from "./styles";
+import Loader from "../../components/Loader";
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const characters = useSelector((state) => state.characters.allCharacters);
+  const token =
+    useSelector((state) => state.auth.token) || localStorage.getItem("token");
+  const isLoading = useSelector((state) => state.loading.isLoading);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/auth", { replace: true });
     }
-  }, [navigate]);
+  }, [navigate, token]);
 
   useEffect(() => {
-    dispatch(actions.getCharacters());
-  }, [dispatch]);
+    dispatch(actions.getCharacters(token));
+  }, [dispatch, token]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Container>

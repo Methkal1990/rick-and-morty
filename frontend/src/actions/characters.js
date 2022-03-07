@@ -1,14 +1,14 @@
 import { GET_CHARACTERS, GET_CHARACTER, FAVORITE, SET_LOADING } from "./types";
 import { getAllCharacters, getCharacterById, favorite } from "../api";
 
-export const getCharacters = () => async (dispatch) => {
+export const getCharacters = (token) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING,
       payload: true,
     });
 
-    const characters = await getAllCharacters();
+    const characters = await getAllCharacters(token);
     dispatch({
       type: GET_CHARACTERS,
       payload: characters,
@@ -23,13 +23,13 @@ export const getCharacters = () => async (dispatch) => {
   }
 };
 
-export const getCharacter = (id) => async (dispatch) => {
+export const getCharacter = (id, token) => async (dispatch) => {
   try {
     dispatch({
       type: SET_LOADING,
       payload: true,
     });
-    const character = await getCharacterById(id);
+    const character = await getCharacterById(id, token);
     dispatch({
       type: GET_CHARACTER,
       payload: character,
@@ -44,8 +44,8 @@ export const getCharacter = (id) => async (dispatch) => {
   }
 };
 
-export const favoriteCharacter = (id) => async (dispatch) => {
-  await favorite(id);
+export const favoriteCharacter = (id, token) => async (dispatch) => {
+  await favorite(id, token);
   dispatch({
     type: FAVORITE,
     payload: id,

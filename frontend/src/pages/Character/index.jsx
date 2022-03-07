@@ -13,6 +13,7 @@ import {
   CharacterInfo,
   FavImage,
 } from "./styles";
+import Loader from "../../components/Loader";
 
 function Character() {
   const { characterId } = useParams();
@@ -23,20 +24,26 @@ function Character() {
   );
   const isLoading = useSelector((state) => state.loading.isLoading);
   const isLoadingPrevious = usePrevious(isLoading);
+  const token =
+    useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
   const handleFavorite = (e) => {
-    dispatch(actions.favoriteCharacter(characterId));
+    dispatch(actions.favoriteCharacter(characterId, token));
   };
 
   useEffect(() => {
-    dispatch(actions.getCharacter(characterId));
-  }, [characterId, dispatch]);
+    dispatch(actions.getCharacter(characterId, token));
+  }, [characterId, dispatch, token]);
 
   useEffect(() => {
     if (isLoadingPrevious && !isLoading && !currentCharacter.id) {
       navigate("/not-found", { replace: true });
     }
   }, [isLoading, isLoadingPrevious, navigate, currentCharacter.id]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Container>

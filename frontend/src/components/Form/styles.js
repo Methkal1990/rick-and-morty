@@ -32,4 +32,11 @@ export const AuthForm = styled.form`
     cursor: pointer;
     width: 100%;
   }
+
+  p {
+    color: red;
+    font-size: 12px;
+    max-width: 150px;
+    letter-spacing: 1px;
+  }
 `;

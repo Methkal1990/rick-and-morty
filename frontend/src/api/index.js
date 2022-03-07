@@ -5,8 +5,7 @@ const rootRequest = axios.create({
 });
 
 // characters
-export const getAllCharacters = async () => {
-  const token = localStorage.getItem("token");
+export const getAllCharacters = async (token) => {
   const response = await rootRequest.get("/characters", {
     headers: {
       "x-auth-token": token,
@@ -15,8 +14,7 @@ export const getAllCharacters = async () => {
   return response.data;
 };
 
-export const getCharacterById = async (id) => {
-  const token = localStorage.getItem("token");
+export const getCharacterById = async (id, token) => {
   const response = await rootRequest.get(`/characters/${id}`, {
     headers: {
       "x-auth-token": token,
@@ -25,8 +23,7 @@ export const getCharacterById = async (id) => {
   return response.data;
 };
 
-export const favorite = async (id) => {
-  const token = localStorage.getItem("token");
+export const favorite = async (id, token) => {
   return await rootRequest.post(
     `/characters/favorite`,
     { id },

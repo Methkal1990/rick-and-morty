@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import RickImage from "../../assets/auth.png";
@@ -17,9 +17,8 @@ import {
 function Auth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem("token");
-  });
+  const token =
+    useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const [isLogin, setIsLogin] = useState(true);
 
   const handleRegister = async (name, password) => {
